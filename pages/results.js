@@ -45,7 +45,7 @@ export default function Results({ results }) {
 }
 
 export async function getStaticProps() {
-  const apiurl = `http://localhost:3000/api/api`;
+  const apiurl = `https://osl-jsf-module-assignment-4-jorndel1.vercel.app/api/api`;
   let response = [];
 
   try {
