@@ -1,4 +1,5 @@
 import Layout from "../components/Layout";
+import Image from "next/image";
 import axios from "axios";
 
 const metadata = {
@@ -17,10 +18,12 @@ export default function Results({ results }) {
           <thead>
             <tr>
               <th scope="col">#</th>
+              <th scope="col">Title</th>
               <th scope="col">Firstname</th>
               <th scope="col">Lastname</th>
               <th scope="col">Age</th>
-              <th scope="col">Nickname</th>
+              <th scope="col">Country</th>
+              <th scope="col">Picture</th>
             </tr>
           </thead>
           <tbody>
@@ -28,11 +31,20 @@ export default function Results({ results }) {
               ? results.map((user, index) => {
                   return (
                     <tr key={index}>
-                      <th scope="row">{index}</th>
-                      <td>{user.firstname}</td>
-                      <td>{user.lastname}</td>
-                      <td>{user.age}</td>
-                      <td>{user.nickname}</td>
+                      <th scope="row">{index + 1}</th>
+                      <td>{user.name.title}</td>
+                      <td>{user.name.first}</td>
+                      <td>{user.name.last}</td>
+                      <td>{user.dob.age}</td>
+                      <td>{user.location.country}</td>
+                      <td>
+                        <Image
+                          src={user.picture.thumbnail}
+                          alt="Picture of the author"
+                          width={40}
+                          height={40}
+                        />
+                      </td>
                     </tr>
                   );
                 })
@@ -46,11 +58,12 @@ export default function Results({ results }) {
 
 export async function getStaticProps() {
   const apiurl = process.env.apiPath;
+  const apiQuery = process.env.apiQuery;
   let response = [];
 
   try {
-    const json = await axios.get(apiurl);
-    response = json.data;
+    const json = await axios.get(apiurl + apiQuery);
+    response = json.data.results;
   } catch (error) {
     console.log(error);
   }
