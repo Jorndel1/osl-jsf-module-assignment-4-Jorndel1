@@ -62,7 +62,7 @@ export async function getStaticProps() {
   let response = [];
 
   try {
-    const json = await axios.get(apiurl + apiQuery);
+    const json = await axios.get(`${apiurl}${apiQuery}`);
     response = json.data.results;
   } catch (error) {
     console.log(error);
